@@ -10,10 +10,14 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useState } from "react"
+import { useAuth } from "@/context/authContext"
 
 export function Login() {
+  const { login } = useAuth()
+
   return (
-    <div className="flex justify-center h-sreen">
+    <div className="flex justify-center items-center h-screen w-screen">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
