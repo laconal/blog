@@ -12,7 +12,7 @@ class Posts(viewsets.ModelViewSet):
     serializer_class = ItemSerializer
 
     def get_permissions(self):
-        if self.action in ["list", "retrieve"]: permission_classes = [AllowAny]
+        if self.action in ["list", "retrieve", "destroy", "partial_update"]: permission_classes = [AllowAny]
         else: permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
@@ -20,11 +20,22 @@ class Posts(viewsets.ModelViewSet):
         serializer = self.get_serializer(self.queryset, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
     
-    def retrieve(self, request, pk=None):
+    def retrieve(self, request, pk = None):
         object = get_object_or_404(self.queryset, pk = pk)
         serializer = self.get_serializer(object)
         return Response(data = serializer.data, status = status.HTTP_200_OK)
-        
+    
+    def destroy(self, request, pk = None):
+        object = get_object_or_404(self.queryset, pk = pk)
+        object.delete()
+        return Response(status=status.HTTP_200_OK)
+    
+    def partial_update(self, request, pk = None):
+        object = get_object_or_404(self.queryset, pk = pk)
+        serializer = self.get_serializer(object, data = request.data, partial = True)
+        serializer.is_valid(raise_exception = True)
+        serializer.save()
+        return Response(status = status.HTTP_200_OK)
 
     
     @action(detail = False, methods = ["get"])
