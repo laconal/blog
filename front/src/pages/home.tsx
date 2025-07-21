@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { format } from "date-fns"
-import { Card } from "@/components/ui/card";
 import type { Post } from "@/types";
 import PostCard from "@/components/card";
+import PostPage from "./post";
 
 export default function Home() {
 
-  const [posts, setPosts] = useState<Post[]>()
+  const [posts, setPosts] = useState<Post[]>([])
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/posts/", {
@@ -33,17 +33,27 @@ export default function Home() {
         <Button>Search</Button>
       </div>
       <div id="posts" className="space-y-6">
-        {posts?.map(x => (
-          <PostCard
-          title={x.title}
-          content={x.content}
-          user={x.author}
-          subject={x.subject}
-          views={x.views}
-          likes={x.likes}
-          createdDate={format(new Date(x.createdDate), "dd-MM-yyyy")}
-        />
-        ))}
+        <div id="posts" className="space-y-6">
+          {posts.map((x) => (
+            <Link
+              key={x.id}
+              to={`/post/${x.id}`}
+              state={x}           // optional: pass the whole object
+              className="block"
+            >
+              <PostCard
+                title={x.title}
+                content={x.content}
+                user={x.author}
+                subject={x.subject}
+                views={x.views}
+                commentsNumber={x.commentsAmount}
+                likes={x.likes}
+                createdDate={format(new Date(x.createdDate), 'dd-MM-yyyy')}
+              />
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   )

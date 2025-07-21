@@ -22,3 +22,17 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name = "comments")
+    body = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    likes = models.IntegerField(default = 0)
+    createdDate = models.DateTimeField(auto_now_add = True)
+    parent = models.ForeignKey(
+        "self",
+        null = True,
+        blank = True,
+        related_name = "subMessages",
+        on_delete=models.CASCADE
+    )

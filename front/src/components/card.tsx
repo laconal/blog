@@ -16,11 +16,12 @@ type PostCardProps = {
     user: string
     subject: string
     views: number
+    commentsNumber: number
     likes: number
     createdDate: string
 }
 
-export default function PostCard({title, content, user, subject, views, likes, createdDate}: PostCardProps) {
+export default function PostCard({title, content, user, subject, views, commentsNumber, likes, createdDate}: PostCardProps) {
     return (
         <div className="flex justify-center">
             <Card className="w-full max-w-[750px]">
@@ -29,7 +30,7 @@ export default function PostCard({title, content, user, subject, views, likes, c
                     <CardAction><Bookmark className="text-yellow-200" fill="yellow"/></CardAction>
                 </CardHeader>
                 <CardContent>
-                    <p>{content}</p>
+                    <p className="truncate mr-50">{content}</p>
                 </CardContent>
                 <CardFooter className="space-x-6">
                     <div className="flex space-x-1">
@@ -43,6 +44,10 @@ export default function PostCard({title, content, user, subject, views, likes, c
                     <div className="flex space-x-1">
                         <p>Views: </p>
                         <Badge>{views}</Badge>
+                    </div>
+                    <div className="flex space-x-1">
+                        <p>Comments: </p>
+                        <Badge>{commentsNumber}</Badge>
                     </div>
                     <div className="flex space-x-1">
                         <p>Likes: </p>

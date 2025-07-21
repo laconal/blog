@@ -6,5 +6,6 @@ export interface Post  {
     subject: string
     likes: number
     views: number
+    commentsAmount: number
     createdDate: string
 }
