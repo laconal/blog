@@ -38,7 +38,7 @@ export default function Home() {
             <Link
               key={x.id}
               to={`/post/${x.id}`}
-              state={x}           // optional: pass the whole object
+              state={x}    
               className="block"
             >
               <PostCard

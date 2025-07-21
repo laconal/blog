@@ -4,5 +4,6 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'', views.Posts, basename = "posts")
+router.register(r'comments/', views.Posts, basename="comments")
 
 urlpatterns = router.urls

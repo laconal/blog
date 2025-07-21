@@ -5,14 +5,14 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Post
-from .serializers import ItemSerializer
+from .serializers import ItemSerializer, CommentSerializer
 
 class Posts(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = ItemSerializer
 
     def get_permissions(self):
-        if self.action in ["list", "retrieve", "destroy", "partial_update"]: permission_classes = [AllowAny]
+        if self.action in ["list", "retrieve", "destroy", "partial_update", "getComments"]: permission_classes = [AllowAny]
         else: permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
@@ -36,6 +36,14 @@ class Posts(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception = True)
         serializer.save()
         return Response(status = status.HTTP_200_OK)
+    
+    @action(methods=["GET"], detail=True, url_path = "comments")
+    def getComments(self, request, pk = None):
+        object = get_object_or_404(self.queryset, pk = pk)
+        comments = object.comments.all()
+        serializer = CommentSerializer(comments, many = True)
+        return Response(data = serializer.data, status = status.HTTP_200_OK)
+
 
     
     @action(detail = False, methods = ["get"])
