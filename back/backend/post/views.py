@@ -8,7 +8,6 @@ from .models import Post
 from .serializers import ItemSerializer, CommentSerializer
 
 class Posts(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
     serializer_class = ItemSerializer
 
     def get_permissions(self):
@@ -17,7 +16,8 @@ class Posts(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def list(self, request):
-        serializer = self.get_serializer(self.queryset, many=True)
+        objects = Post.objects.all()
+        serializer = self.get_serializer(objects, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
     
     def retrieve(self, request, pk = None):
@@ -39,13 +39,11 @@ class Posts(viewsets.ModelViewSet):
     
     @action(methods=["GET"], detail=True, url_path = "comments")
     def getComments(self, request, pk = None):
-        object = get_object_or_404(self.queryset, pk = pk)
+        object = get_object_or_404(Post, pk = pk)
         comments = object.comments.all()
         serializer = CommentSerializer(comments, many = True)
         return Response(data = serializer.data, status = status.HTTP_200_OK)
 
-
-    
     @action(detail = False, methods = ["get"])
     def oneObject(self, request, pk: int):
         object = Post.object.get(id = pk)

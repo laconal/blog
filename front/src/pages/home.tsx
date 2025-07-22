@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { format } from "date-fns"
 import type { Post } from "@/types";
-import PostCard from "@/components/card";
+import PostCard from "@/components/postCard";
 import PostPage from "./post";
 
 export default function Home() {
@@ -47,7 +47,7 @@ export default function Home() {
                 user={x.author}
                 subject={x.subject}
                 views={x.views}
-                commentsNumber={x.commentsAmount}
+                commentsNumber={x.comments.length}
                 likes={x.likes}
                 createdDate={format(new Date(x.createdDate), 'dd-MM-yyyy')}
               />

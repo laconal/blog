@@ -6,6 +6,17 @@ export interface Post  {
     subject: string
     likes: number
     views: number
-    commentsAmount: number
+    comments: number[]
     createdDate: string
+}
+
+export interface Comment {
+    id: number
+    subMessages: number[]
+    body: string
+    likes: number
+    createdDate: string
+    post: number
+    author: string
+    parent: number | null
 }
