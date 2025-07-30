@@ -3,7 +3,10 @@ import Home from './pages/home';
 import { Login} from './pages/login';
 import TestPage from './pages/test';
 import PostPage from './pages/post';
+
+
 export default function App() {
+  init();
   return (
     <Routes>
       <Route path="/" element={<Home />} />

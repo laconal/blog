@@ -5,6 +5,7 @@ import { Heart, Eye, User2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useMemo, useState, type JSX } from "react";
 import CommentCard from "@/components/commentCard";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export default function PostPage() {
     const { id } = useParams<{id: string}>()
@@ -29,23 +30,10 @@ export default function PostPage() {
         if (usedComments.has(comment.id)) return null
         usedComments.add(comment.id)
         
-        // Define specific classes for each depth level
-        const getIndentClass = (depth: number) => {
-            switch(depth) {
-                case 0: return ''
-                case 1: return 'ml-8'
-                case 2: return 'ml-10'
-                case 3: return 'ml-12'
-                case 4: return 'ml-14'
-                default: return 'ml-16'
-            }
-        }
-        
         return (
-            <div key={comment.id} className={`${getIndentClass(depth)} ${depth > 0 ? 'mt-2' : ''}`}>
+            <div key={comment.id} className={`ml-${8+((depth-1)*2)} ${depth > 0 ? 'mt-2' : ''}`}>
                 <CommentCard 
                     author={comment.author}
-                    subMessages={comment.subMessages}
                     createdDate={comment.createdDate}
                     body={comment.body}
                     likes={comment.likes}
